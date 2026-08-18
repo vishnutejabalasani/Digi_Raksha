@@ -30,8 +30,20 @@ if [ ! -x "$MAVEN_EXEC" ]; then
     echo "[mvnw] Error: Neither curl nor wget is available to download Maven." >&2
     exit 1
   fi
+
+  if command -v unzip >/dev/null 2>&1; then
+    unzip -q -o "$TMP_ZIP" -d "$WRAPPER_DIR"
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c "import zipfile; zipfile.ZipFile('$TMP_ZIP').extractall('$WRAPPER_DIR')"
+  elif command -v python >/dev/null 2>&1; then
+    python -c "import zipfile; zipfile.ZipFile('$TMP_ZIP').extractall('$WRAPPER_DIR')"
+  elif command -v jar >/dev/null 2>&1; then
+    (cd "$WRAPPER_DIR" && jar xf "$TMP_ZIP")
+  else
+    echo "[mvnw] Error: No zip extraction utility (unzip, python, or jar) found." >&2
+    exit 1
+  fi
   
-  unzip -q -o "$TMP_ZIP" -d "$WRAPPER_DIR"
   rm -f "$TMP_ZIP"
   chmod +x "$MAVEN_EXEC"
   echo "[mvnw] Apache Maven $MAVEN_VERSION downloaded and installed successfully!"

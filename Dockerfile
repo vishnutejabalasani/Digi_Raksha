@@ -1,14 +1,8 @@
-# Build Stage
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM node:20-alpine
 WORKDIR /app
-COPY backend/pom.xml ./
-COPY backend/src ./src
-RUN mvn clean package -DskipTests
-
-# Run Stage
-FROM eclipse-temurin:17-jre
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8080
-ENV PORT=8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY backend/package*.json ./
+RUN npm install --production
+COPY backend/ .
+EXPOSE 5000
+ENV PORT=5000
+CMD ["npm", "start"]

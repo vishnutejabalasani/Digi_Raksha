@@ -19,6 +19,20 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/game', gameRoutes);
 
+// Root Endpoint
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ONLINE',
+    system: 'Digi Raksha MERN Cyber Safety Engine',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth',
+      game: '/api/game'
+    }
+  });
+});
+
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Digi Raksha Express MERN Backend is live!' });

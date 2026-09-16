@@ -42,6 +42,7 @@ router.post('/mission/complete', authenticateToken, async (req, res) => {
       case 'otp': stampId = 'OTP_STAMP'; break;
       case 'vishing': stampId = 'VISHING_STAMP'; break;
       case 'upi': stampId = 'UPI_STAMP'; break;
+      case 'escape': stampId = 'ESCAPE_STAMP'; break;
     }
 
     if (stampId && !user.stamps.includes(stampId)) {

@@ -7,7 +7,8 @@ import {
   Flame,
   User,
   Award,
-  ShieldCheck
+  ShieldCheck,
+  Smartphone
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -19,6 +20,7 @@ export const Sidebar: React.FC = () => {
     { to: '/dashboard', label: 'Mission Control', icon: Compass },
     { to: '/city-map', label: 'Cyber City Map', icon: Map },
     { to: '/escape-room', label: 'Escape Room', icon: Flame },
+    { to: '/phone-simulator', label: 'Phone Sandbox', icon: Smartphone },
     { to: '/avatar', label: 'Avatar Shop', icon: User },
     { to: '/graduation', label: 'Hero Ceremony', icon: Award },
   ];

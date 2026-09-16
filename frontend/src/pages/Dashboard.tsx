@@ -12,7 +12,9 @@ import {
   ChevronRight, 
   Gift, 
   Shield, 
-  Sparkles
+  Sparkles,
+  Smartphone,
+  Flame
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -124,8 +126,6 @@ export const Dashboard: React.FC = () => {
     confetti({ particleCount: 60, spread: 50 });
   };
 
-  const missionCompletionRate = Math.round((user.completedMissions.length / 4) * 100);
-
   const missions = [
     {
       id: 'phishing',
@@ -172,6 +172,9 @@ export const Dashboard: React.FC = () => {
       route: '/mission/upi',
     }
   ];
+
+  const microMissionsCompleted = missions.filter(m => m.completed).length;
+  const missionCompletionRate = Math.round((microMissionsCompleted / missions.length) * 100);
 
   const handleOpenChest = () => {
     if (chestOpened) return;
@@ -276,6 +279,85 @@ export const Dashboard: React.FC = () => {
         </div>
       </section>
 
+      {/* Special Operations Interactive Labs */}
+      <section className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-base font-black tracking-wide text-slate-800 uppercase flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-indigo-600 animate-pulse" />
+            Special Operations Simulation Labs
+          </h3>
+          <span className="text-[10px] bg-indigo-50 border border-indigo-200 text-indigo-700 font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+            Interactive Sandboxes
+          </span>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4">
+          
+          {/* CyberPhone OS Sandbox Card */}
+          <div 
+            onClick={() => navigate('/phone-simulator')}
+            className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-cyan-500/30 rounded-3xl p-6 text-white cursor-pointer hover:scale-102 transition-all shadow-lg flex flex-col justify-between gap-5 relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-2xl">
+                  <Smartphone className="w-6 h-6" />
+                </span>
+                <span className="text-[9px] bg-cyan-400 text-slate-950 font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  NEW LAB
+                </span>
+              </div>
+              <h4 className="text-lg font-black text-white group-hover:text-cyan-300 transition-colors uppercase tracking-tight">
+                CyberPhone OS Sandbox
+              </h4>
+              <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">
+                Operate a simulated virtual smartphone. Investigate suspicious chat APKs, audit dangerous app permissions, and defuse an AnyDesk remote screen-sharing trap!
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-between border-t border-slate-800 pt-3 text-[11px] font-mono">
+              <span className="text-cyan-400 font-black">+250 XP · +100 Coins</span>
+              <span className="text-white font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Launch Phone OS →
+              </span>
+            </div>
+          </div>
+
+          {/* Escape Room Card */}
+          <div 
+            onClick={() => navigate('/escape-room')}
+            className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-rose-500/30 rounded-3xl p-6 text-white cursor-pointer hover:scale-102 transition-all shadow-lg flex flex-col justify-between gap-5 relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-3 bg-rose-500/20 border border-rose-500/40 text-rose-300 rounded-2xl">
+                  <Flame className="w-6 h-6" />
+                </span>
+                <span className="text-[9px] bg-rose-500 text-white font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  HIGH STAKES
+                </span>
+              </div>
+              <h4 className="text-lg font-black text-white group-hover:text-rose-300 transition-colors uppercase tracking-tight">
+                Digital Safety Escape Room
+              </h4>
+              <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">
+                High-stakes 5-stage ransomware defense mission. Decode entropy passwords, inspect phishing links, audit fake QR codes, and preserve your 3 Security Shields!
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-slate-800 pt-3 text-[11px] font-mono">
+              <span className="text-amber-400 font-black">+300 XP · +150 Coins</span>
+              <span className="text-white font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Enter Escape Room →
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* Grid of Main Missions */}
       <section className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
@@ -284,7 +366,7 @@ export const Dashboard: React.FC = () => {
             Active Training Missions
           </h3>
           <span className="text-xs text-slate-400 font-black uppercase">
-            {user.completedMissions.length} of 4 Complete
+            {microMissionsCompleted} of {missions.length} Complete
           </span>
         </div>
 

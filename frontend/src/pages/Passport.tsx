@@ -54,6 +54,15 @@ export const Passport: React.FC = () => {
       emblem: '🕵️‍♂️',
       cardBg: 'bg-purple-50 border-purple-300 text-purple-900',
       badgeBg: 'bg-purple-100 text-purple-800'
+    },
+    {
+      id: 'PHONE_STAMP',
+      title: 'Phone Detective',
+      missionId: 'phone',
+      desc: 'Neutralized Mobile OS Threats',
+      emblem: '📱',
+      cardBg: 'bg-cyan-50 border-cyan-300 text-cyan-900',
+      badgeBg: 'bg-cyan-100 text-cyan-800'
     }
   ];
 
@@ -152,7 +161,7 @@ export const Passport: React.FC = () => {
                   return (
                     <div 
                       key={stamp.id}
-                      onClick={() => !isStamped && navigate(stamp.missionId === 'escape' ? '/escape-room' : `/mission/${stamp.missionId}`)}
+                      onClick={() => !isStamped && navigate(stamp.missionId === 'escape' ? '/escape-room' : stamp.missionId === 'phone' ? '/phone-simulator' : `/mission/${stamp.missionId}`)}
                       className={`
                         border-2 rounded-2xl p-3 flex flex-col items-center justify-between text-center min-h-[140px] relative transition-all group
                         ${isStamped 

@@ -4,7 +4,7 @@ import { Sidebar } from './Sidebar';
 import { useGame } from '../context/GameContext';
 import { AchievementPopup } from './AchievementPopup';
 import { RakshaAI } from './RakshaAI';
-import { Compass, Map, Flame, User, Award, Lock, Shield, Sparkles } from 'lucide-react';
+import { Compass, Map, Flame, User, Award, Lock, Shield, Sparkles, Smartphone } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const FloatingDecorations: React.FC = () => {
@@ -56,6 +56,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     { to: '/dashboard', label: 'Control', icon: Compass },
     { to: '/city-map', label: 'City Map', icon: Map },
     { to: '/escape-room', label: 'Escape', icon: Flame },
+    { to: '/phone-simulator', label: 'Phone', icon: Smartphone },
     { to: '/avatar', label: 'Avatar', icon: User },
     { to: '/graduation', label: 'Ceremony', icon: Award },
   ];

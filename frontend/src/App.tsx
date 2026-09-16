@@ -22,6 +22,7 @@ import { CyberCityMap } from './pages/CyberCityMap';
 import { CyberEscapeRoom } from './pages/CyberEscapeRoom';
 import { AvatarCustomizer } from './pages/AvatarCustomizer';
 import { GraduationCeremony } from './pages/GraduationCeremony';
+import { PhoneSimulator } from './pages/PhoneSimulator';
 
 // Guard for authenticated pages
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -76,6 +77,7 @@ const AppRoutes: React.FC = () => {
           <Route path="/escape-room" element={<AuthGuard><CyberEscapeRoom /></AuthGuard>} />
           <Route path="/avatar" element={<AuthGuard><AvatarCustomizer /></AuthGuard>} />
           <Route path="/graduation" element={<AuthGuard><GraduationCeremony /></AuthGuard>} />
+          <Route path="/phone-simulator" element={<AuthGuard><PhoneSimulator /></AuthGuard>} />
 
           {/* Management Panels */}
           <Route path="/admin" element={<AdminGuard><AdminPanel /></AdminGuard>} />

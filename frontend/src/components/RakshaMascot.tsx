@@ -4,12 +4,14 @@ interface RakshaProps {
   expression?: 'idle' | 'warning' | 'celebrate' | 'sad' | 'talk';
   message?: string;
   className?: string;
+  size?: number;
 }
 
 export const RakshaMascot: React.FC<RakshaProps> = ({ 
   expression = 'idle', 
   message, 
-  className = '' 
+  className = '',
+  size
 }) => {
   
   // Custom eye colors and shapes based on mood
@@ -42,7 +44,10 @@ export const RakshaMascot: React.FC<RakshaProps> = ({
       )}
 
       {/* SVG Vector Mascot */}
-      <div className={`relative w-24 h-24 flex items-center justify-center shrink-0`}>
+      <div 
+        className={`relative ${size ? '' : 'w-24 h-24'} flex items-center justify-center shrink-0`}
+        style={size ? { width: `${size}px`, height: `${size}px` } : undefined}
+      >
         <svg 
           viewBox="0 0 100 100" 
           className={`w-full h-full 

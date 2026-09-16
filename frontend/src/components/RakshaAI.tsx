@@ -1,25 +1,44 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageSquare, X, Send, Mic, Volume2, VolumeX, Sparkles } from 'lucide-react';
+import { 
+  MessageSquare, 
+  X, 
+  Send, 
+  Mic, 
+  Volume2, 
+  VolumeX, 
+  Sparkles, 
+  Bot, 
+  ShieldCheck, 
+  HelpCircle,
+  PhoneCall,
+  User
+} from 'lucide-react';
 import { RakshaMascot } from './RakshaMascot';
 
 interface ChatMessage {
   sender: 'user' | 'ai';
   text: string;
+  time?: string;
 }
 
 const KNOWLEDGE_BASE: Record<string, string> = {
-  'what is phishing?': 'Phishing is when hackers send fake emails or messages that look like they are from Netflix, Google, or your school. They want you to click a link and type your password so they can steal your account!',
-  'can i share otp?': 'NO! Never share your One-Time Password (OTP) or UPI PIN with anyone, not even if they claim they are from your bank, the police, or a support center. OTP is the secret key to your money and accounts.',
-  'what is cyber bullying?': 'Cyberbullying is when people use the internet, games, or social apps to send mean, hateful, or embarrassing messages to someone. If you or someone you know is bullied, tell your parents or report it on 1930 immediately.',
-  'what is ransomware?': 'Ransomware is a bad virus that locks all the files on your computer. The hacker demands you pay them money (a ransom) to unlock it. Avoid downloading game mods or cheats from untrusted sites, as they often contain ransomware!',
-  'is this message fake?': 'Scam messages usually have: 1) Spelling mistakes, 2) Strange links (like bank-login-support.net instead of bank.com), 3) Urgent warnings ("Renew now or your eSIM will be blocked in 30 minutes!"), or 4) Offers of free cash/diamonds.',
-  'what should i do if i get scammed?': 'If your family loses money or you get hacked, do not panic! Immediately call the National Cyber Crime Helpline at 1930. The cyber cell can freeze the scammer\'s account if you call them quickly.'
+  'what is phishing?': 'Phishing is when cyber criminals send deceptive emails, SMS, or WhatsApp messages pretending to be legitimate brands (like Google, Netflix, or your School Board). They trick you into clicking a link and typing credentials so they can hijack your accounts!',
+  'can i share otp?': '🚨 NEVER! One-Time Passwords (OTPs) and UPI PINs are confidential 2FA authentication keys. Legitimate banks, police officers, and telecom providers will NEVER call or message you asking for an OTP.',
+  'what is cyber bullying?': 'Cyberbullying includes sending abusive, threatening, or humiliating messages across games or social networks. If you encounter bullying, do not engage: take screenshots, block the harasser, and report it to parents or teachers immediately.',
+  'what is ransomware?': 'Ransomware is dangerous malware that encrypts files on your computer and demands ransom payment. Never download pirated game cheats, cracked software, or unknown torrents, as they are primary ransomware infection vectors.',
+  'is this message fake?': 'Red flags of a scam message include: 1) Artificial panic ("Account blocked in 15 mins!"), 2) Shortened suspicious URLs, 3) Requests for confidential OTPs/PINs, and 4) Unbelievable rewards or lottery cash prize claims.',
+  'what should i do if i get scammed?': 'Do not panic! Immediately dial the National Cyber Crime Helpline at 1930 (available 24/7 across India) or file an incident report at cybercrime.gov.in. Calling within the golden hour enables banks to freeze stolen funds!',
+  'helpline 1930': '📞 1930 is the official citizen cyber fraud emergency helpline in India. Dialing 1930 connects you immediately to the financial fraud mitigation desk to freeze unauthorized transactions.'
 };
 
 export const RakshaAI: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { sender: 'ai', text: 'Hello Student! I am Raksha, your AI Cyber Guide. Ask me anything about staying safe online!' }
+    { 
+      sender: 'ai', 
+      text: 'Hello Cadet! I am Raksha, your AI Cyber Safety Companion. How can I protect your digital journey today?',
+      time: 'Just now'
+    }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -29,10 +48,11 @@ export const RakshaAI: React.FC = () => {
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const quickReplies = [
-    "What is phishing?",
-    "Can I share OTP?",
-    "Is this message fake?",
-    "What is ransomware?"
+    { label: "🎣 What is phishing?", query: "What is phishing?" },
+    { label: "🔒 Can I share OTP?", query: "Can I share OTP?" },
+    { label: "🚨 Is this message fake?", query: "Is this message fake?" },
+    { label: "👾 What is ransomware?", query: "What is ransomware?" },
+    { label: "📞 Helpline 1930", query: "Helpline 1930" }
   ];
 
   useEffect(() => {
@@ -45,8 +65,8 @@ export const RakshaAI: React.FC = () => {
     try {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1.0;
-      utterance.pitch = 1.1; // Friendly slightly higher pitch
+      utterance.rate = 1.05;
+      utterance.pitch = 1.08;
       window.speechSynthesis.speak(utterance);
     } catch (e) {}
   };
@@ -87,8 +107,10 @@ export const RakshaAI: React.FC = () => {
   const handleSend = (text: string) => {
     if (!text.trim()) return;
 
+    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     // Add user message
-    setMessages((prev) => [...prev, { sender: 'user', text }]);
+    setMessages((prev) => [...prev, { sender: 'user', text, time: timeStr }]);
     setInputValue('');
     setIsTyping(true);
 
@@ -97,7 +119,7 @@ export const RakshaAI: React.FC = () => {
       setIsTyping(false);
       const query = text.toLowerCase().trim().replace(/[?.!]/g, '');
       
-      let answer = "I'm not fully sure about that specific query. Try asking me about 'phishing', 'sharing OTPs', or 'ransomware'!";
+      let answer = "I'm not fully sure about that specific scenario yet. Try asking me about 'phishing', 'sharing OTPs', 'fake messages', or the '1930 helpline'!";
       
       // Match from knowledge base
       for (const key of Object.keys(KNOWLEDGE_BASE)) {
@@ -107,136 +129,212 @@ export const RakshaAI: React.FC = () => {
         }
       }
 
-      setMessages((prev) => [...prev, { sender: 'ai', text: answer }]);
+      setMessages((prev) => [...prev, { sender: 'ai', text: answer, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
       speakText(answer);
-    }, 1200);
+    }, 1100);
   };
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-6 z-50 font-sans">
+    <div className="fixed bottom-20 md:bottom-6 right-6 z-50 font-sans select-none">
       
-      {/* Floating Action Button */}
+      {/* Floating Action Trigger Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="p-4 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-700 hover:to-cyan-600 text-white rounded-full shadow-lg shadow-violet-500/20 active:scale-95 transition-all flex items-center justify-center border border-violet-400/20 relative group"
+          type="button"
+          className="group relative p-4 bg-gradient-to-r from-indigo-600 via-indigo-700 to-cyan-500 hover:from-indigo-700 hover:to-cyan-600 text-white rounded-full shadow-2xl hover:shadow-cyan-500/25 active:scale-95 transition-all flex items-center justify-center border-2 border-white/20 cursor-pointer"
         >
-          <MessageSquare className="w-6 h-6 animate-pulse" />
-          <span className="absolute -top-1 -right-1 bg-rose-500 w-3 h-3 rounded-full border-2 border-slate-950"></span>
-          <span className="absolute right-14 bg-slate-950/80 border border-white/5 text-slate-200 text-[10px] font-extrabold px-2.5 py-1 rounded-lg uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
-            Ask Raksha AI
+          {/* Subtle Outer Glow Wave */}
+          <div className="absolute inset-0 rounded-full bg-cyan-400/20 animate-ping pointer-events-none"></div>
+          
+          <MessageSquare className="w-6 h-6 text-white relative z-10" />
+          
+          {/* Green Live Beacon */}
+          <span className="absolute top-0 right-0 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-900 rounded-full"></span>
+
+          {/* Hover Tooltip */}
+          <span className="absolute right-16 bg-slate-900/95 border border-slate-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-xl shadow-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Need Help? Ask Raksha AI</span>
           </span>
         </button>
       )}
 
-      {/* Chatbox Panel */}
+      {/* Redesigned Premium Chatbot Panel */}
       {isOpen && (
-        <div className="w-80 sm:w-96 h-[480px] glass-panel-strong rounded-3xl border border-white/10 shadow-2xl flex flex-col justify-between overflow-hidden animate-fade-in relative">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-600 to-cyan-400"></div>
+        <div className="w-[330px] sm:w-[380px] h-[520px] bg-white rounded-[32px] border-2 border-indigo-100 shadow-2xl flex flex-col justify-between overflow-hidden animate-scale-in relative ring-1 ring-slate-900/5">
+          
+          {/* Header with Cyber Mesh Gradient */}
+          <div className="p-4 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white flex items-center justify-between border-b border-indigo-900/60 relative overflow-hidden shrink-0">
+            {/* Ambient Background Glint */}
+            <div className="absolute -top-6 -right-6 w-24 h-24 bg-cyan-500/10 rounded-full blur-xl pointer-events-none"></div>
 
-          {/* Header */}
-          <div className="p-4 border-b border-white/5 flex items-center justify-between bg-slate-900/40">
-            <div className="flex items-center gap-3">
-              <RakshaMascot expression="talk" className="!w-10 !h-10 shrink-0" />
+            {/* Left: Mascot Avatar & Title */}
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-400 p-0.5 shadow-md flex items-center justify-center shrink-0 border border-cyan-300/40">
+                <RakshaMascot size={32} expression="talk" />
+              </div>
               <div>
-                <h4 className="font-extrabold text-white text-xs sm:text-sm uppercase tracking-wide flex items-center gap-1">
-                  Raksha AI
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin [animation-duration:6s]" />
-                </h4>
-                <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Cyber Shield Guide</span>
+                <div className="flex items-center gap-1.5">
+                  <h4 className="font-black text-white text-sm tracking-wide uppercase leading-none">
+                    Raksha AI
+                  </h4>
+                  <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+                </div>
+                <div className="flex items-center gap-1.5 mt-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-[10px] text-cyan-300 font-mono font-bold tracking-wider uppercase">
+                    Online · Cyber Guide
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            {/* Right: Header Controls */}
+            <div className="flex items-center gap-2 relative z-10">
               {/* Text-To-Speech Toggle */}
               <button
                 onClick={() => {
                   setSpeechEnabled(!speechEnabled);
                   if (speechEnabled) window.speechSynthesis.cancel();
                 }}
-                className={`p-1.5 rounded-lg border transition-all ${
-                  speechEnabled ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400' : 'border-white/5 text-slate-400 hover:text-white'
+                type="button"
+                className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                  speechEnabled 
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300 shadow-xs' 
+                    : 'bg-white/10 border-white/10 text-slate-300 hover:text-white hover:bg-white/20'
                 }`}
-                title={speechEnabled ? "Mute Assistant voice" : "Enable Assistant voice"}
+                title={speechEnabled ? "Mute Voice Assistant" : "Enable Voice Assistant"}
               >
                 {speechEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
               
+              {/* Close Button */}
               <button
                 onClick={() => { setIsOpen(false); window.speechSynthesis.cancel(); }}
-                className="p-1.5 bg-white/5 hover:bg-white/10 border border-white/5 rounded-lg text-slate-400 hover:text-white transition-all"
+                type="button"
+                className="p-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-slate-300 hover:text-white transition-all cursor-pointer"
+                title="Close chat"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {/* Messages Grid */}
-          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3.5 max-h-[300px]">
+          {/* Messages Feed Area */}
+          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3.5 bg-gradient-to-b from-slate-50 to-indigo-50/30">
+            
+            {/* Welcome Tag */}
+            <div className="text-[10px] text-center text-slate-400 font-mono font-bold uppercase tracking-widest my-1 flex items-center justify-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
+              <span>Verified Cyber Safety Assistant</span>
+            </div>
+
             {messages.map((msg, idx) => (
               <div 
                 key={idx}
-                className={`
-                  flex gap-2 max-w-[80%] text-xs leading-normal p-3 rounded-2xl
-                  ${msg.sender === 'user' 
-                    ? 'bg-violet-600 text-white self-end rounded-tr-none' 
-                    : 'bg-slate-900 border border-white/5 text-slate-200 self-start rounded-tl-none'
-                  }
-                `}
+                className={`flex gap-2.5 max-w-[86%] ${msg.sender === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}
               >
-                {msg.text}
+                {/* AI / User Avatar Badge */}
+                {msg.sender === 'ai' ? (
+                  <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center text-white shrink-0 shadow-xs border border-indigo-200 mt-1">
+                    <RakshaMascot size={20} expression="talk" />
+                  </div>
+                ) : (
+                  <div className="w-7 h-7 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0 shadow-xs border border-slate-700 mt-1">
+                    <User className="w-4 h-4 text-cyan-400" />
+                  </div>
+                )}
+
+                {/* Message Bubble Card */}
+                <div 
+                  className={`
+                    p-3.5 rounded-2xl text-xs leading-relaxed shadow-xs flex flex-col gap-1 transition-all
+                    ${msg.sender === 'user' 
+                      ? 'bg-gradient-to-r from-indigo-600 to-cyan-600 text-white rounded-tr-xs' 
+                      : 'bg-white border-2 border-indigo-100 text-slate-800 rounded-tl-xs shadow-sm font-medium'
+                    }
+                  `}
+                >
+                  <p>{msg.text}</p>
+                  {msg.time && (
+                    <span className={`text-[9px] text-right font-mono ${msg.sender === 'user' ? 'text-indigo-200' : 'text-slate-400'}`}>
+                      {msg.time}
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
 
+            {/* Live Typing Indicator */}
             {isTyping && (
-              <div className="bg-slate-900 border border-white/5 text-slate-400 self-start p-3 rounded-2xl rounded-tl-none text-xs flex gap-1 items-center max-w-[80%]">
-                <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
-                <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+              <div className="self-start flex items-center gap-2.5 max-w-[85%] animate-fade-in">
+                <div className="w-7 h-7 rounded-xl bg-indigo-600 flex items-center justify-center text-white shrink-0 shadow-xs">
+                  <RakshaMascot size={20} expression="talk" />
+                </div>
+                <div className="bg-white border-2 border-indigo-100 p-3 rounded-2xl rounded-tl-xs shadow-sm flex items-center gap-2 text-xs text-slate-500 font-medium">
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-bounce [animation-delay:0.2s]"></span>
+                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-bounce [animation-delay:0.4s]"></span>
+                  </div>
+                  <span className="text-[10px] text-indigo-700 font-bold">Raksha is analyzing...</span>
+                </div>
               </div>
             )}
+            
             <div ref={chatEndRef}></div>
           </div>
 
-          {/* Quick replies & Inputs */}
-          <div className="p-4 border-t border-white/5 bg-slate-950/60 flex flex-col gap-3">
-            {/* Quick replies scroll */}
-            <div className="flex gap-1.5 overflow-x-auto pb-1 max-w-full">
-              {quickReplies.map((reply) => (
+          {/* Bottom Area: Quick Prompts + Elevated Input Bar */}
+          <div className="p-3.5 bg-white border-t-2 border-indigo-100 flex flex-col gap-2.5 shrink-0">
+            
+            {/* Quick Suggestions Chips Tray */}
+            <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+              {quickReplies.map((reply, i) => (
                 <button
-                  key={reply}
-                  onClick={() => handleSend(reply)}
-                  className="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-[10px] text-cyan-400 font-bold border border-cyan-500/20 hover:border-cyan-500/40 rounded-full transition-all shrink-0 cursor-pointer"
+                  key={i}
+                  onClick={() => handleSend(reply.query)}
+                  type="button"
+                  className="px-3 py-1 bg-indigo-50/80 hover:bg-indigo-100 border border-indigo-200 hover:border-indigo-300 text-[10px] text-indigo-900 font-bold rounded-full transition-all shrink-0 cursor-pointer shadow-2xs hover:scale-105"
                 >
-                  {reply}
+                  {reply.label}
                 </button>
               ))}
             </div>
 
-            {/* Input Row */}
-            <div className="flex gap-2 items-center">
+            {/* Input & Action Bar */}
+            <div className="flex items-center gap-2 bg-slate-50 border-2 border-indigo-100 focus-within:border-indigo-400 focus-within:bg-white rounded-2xl p-1.5 transition-all shadow-inner">
               <input
                 type="text"
-                placeholder="Ask me about cyber safety..."
+                placeholder="Ask about phishing, passwords, OTPs..."
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend(inputValue)}
-                className="glass-input px-3.5 py-2.5 rounded-xl text-xs text-white placeholder-slate-500 w-full"
+                className="w-full bg-transparent px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-hidden font-medium"
               />
 
+              {/* Voice Input Button */}
               <button
                 onClick={startListening}
-                className={`p-2.5 rounded-xl border transition-all ${
-                  isListening ? 'bg-rose-500/20 border-rose-500 text-rose-400 animate-pulse' : 'bg-slate-900 border-white/5 text-slate-400 hover:text-white'
+                type="button"
+                className={`p-2 rounded-xl border transition-all cursor-pointer ${
+                  isListening 
+                    ? 'bg-rose-500 border-rose-600 text-white animate-pulse shadow-md' 
+                    : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-600 hover:text-indigo-600 shadow-2xs'
                 }`}
-                title="Dictate with voice"
+                title="Speak question via microphone"
               >
                 <Mic className="w-4 h-4" />
               </button>
 
+              {/* Send Button */}
               <button
                 onClick={() => handleSend(inputValue)}
-                className="p-2.5 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-700 hover:to-cyan-600 text-white rounded-xl shadow-lg transition-all"
+                disabled={!inputValue.trim()}
+                type="button"
+                className="p-2 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-700 hover:to-cyan-600 text-white rounded-xl shadow-md transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed hover:scale-105"
+                title="Send message"
               >
                 <Send className="w-4 h-4" />
               </button>

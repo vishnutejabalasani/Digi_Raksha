@@ -83,7 +83,7 @@ export const Certificate: React.FC = () => {
             {/* Official Certificate Template Background */}
             <img 
               src="/certificate_official.png" 
-              alt="IEEE SSIT & Anurag University Certificate of Appreciation" 
+              alt="Official Certificate of Appreciation" 
               className="w-full h-auto block"
             />
             
@@ -91,11 +91,11 @@ export const Certificate: React.FC = () => {
             <div 
               className="absolute text-center flex items-center justify-center font-serif font-black tracking-wider uppercase"
               style={{
-                top: '43.5%',
-                left: '32%',
-                width: '56%',
+                top: '38.5%',
+                left: '23%',
+                width: '57%',
                 height: '8.5%',
-                fontSize: 'clamp(14px, 2.6vw, 36px)',
+                fontSize: 'clamp(14px, 2.8vw, 38px)',
                 color: '#0f172a',
                 letterSpacing: '0.06em',
                 textShadow: '0px 0px 1px rgba(0,0,0,0.1)'

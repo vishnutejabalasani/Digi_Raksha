@@ -44,6 +44,8 @@ router.post('/mission/complete', authenticateToken, async (req, res) => {
       case 'upi': stampId = 'UPI_STAMP'; break;
       case 'escape': stampId = 'ESCAPE_STAMP'; break;
       case 'phone': stampId = 'PHONE_STAMP'; break;
+      case 'deepfake': stampId = 'DEEPFAKE_STAMP'; break;
+      case 'threat_radar': stampId = 'THREAT_RADAR_STAMP'; break;
     }
 
     if (stampId && !user.stamps.includes(stampId)) {

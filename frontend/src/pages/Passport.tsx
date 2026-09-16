@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
-import { ShieldCheck, BookOpen, Star, HelpCircle, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, BookOpen, Star, HelpCircle, ArrowLeft, CreditCard } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Passport: React.FC = () => {
@@ -63,6 +63,24 @@ export const Passport: React.FC = () => {
       emblem: '📱',
       cardBg: 'bg-cyan-50 border-cyan-300 text-cyan-900',
       badgeBg: 'bg-cyan-100 text-cyan-800'
+    },
+    {
+      id: 'DEEPFAKE_STAMP',
+      title: 'Deepfake Analyst',
+      missionId: 'deepfake',
+      desc: 'Sifted AI Synthetic Voice Vectors',
+      emblem: '🎙️',
+      cardBg: 'bg-emerald-50 border-emerald-300 text-emerald-900',
+      badgeBg: 'bg-emerald-100 text-emerald-800'
+    },
+    {
+      id: 'THREAT_RADAR_STAMP',
+      title: 'SOC Guardian',
+      missionId: 'threat_radar',
+      desc: 'Neutralized Regional Cyber Threats',
+      emblem: '📡',
+      cardBg: 'bg-indigo-50 border-indigo-300 text-indigo-900',
+      badgeBg: 'bg-indigo-100 text-indigo-800'
     }
   ];
 
@@ -71,23 +89,34 @@ export const Passport: React.FC = () => {
   return (
     <div className="flex flex-col gap-6 select-none">
       {/* Header */}
-      <div className="flex items-center gap-4 bg-white/80 p-4 rounded-2xl border-2 border-indigo-100 shadow-sm backdrop-blur-sm">
-        <button
-          onClick={() => navigate('/dashboard')}
-          type="button"
-          className="p-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 hover:text-slate-900 transition-all cursor-pointer"
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <div>
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-primary animate-pulse" />
-            Safety Credentials Passport
-          </h2>
-          <p className="text-xs text-indigo-700 font-extrabold uppercase tracking-wider mt-0.5">
-            Complete simulation missions to collect official verification stamps
-          </p>
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white/80 p-4 rounded-2xl border-2 border-indigo-100 shadow-sm backdrop-blur-sm">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/dashboard')}
+            type="button"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl text-slate-700 hover:text-slate-900 transition-all cursor-pointer"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-wide flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-primary animate-pulse" />
+              Safety Credentials Passport
+            </h2>
+            <p className="text-xs text-indigo-700 font-extrabold uppercase tracking-wider mt-0.5">
+              Complete simulation missions to collect official verification stamps
+            </p>
+          </div>
         </div>
+
+        <button
+          onClick={() => navigate('/id-card')}
+          type="button"
+          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white rounded-xl text-xs font-black uppercase tracking-wider shadow-md cursor-pointer transition-all"
+        >
+          <CreditCard className="w-4 h-4" />
+          <span>Print Holographic ID Card</span>
+        </button>
       </div>
 
       {/* Passport Book */}
@@ -161,7 +190,14 @@ export const Passport: React.FC = () => {
                   return (
                     <div 
                       key={stamp.id}
-                      onClick={() => !isStamped && navigate(stamp.missionId === 'escape' ? '/escape-room' : stamp.missionId === 'phone' ? '/phone-simulator' : `/mission/${stamp.missionId}`)}
+                      onClick={() => {
+                        if (isStamped) return;
+                        if (stamp.missionId === 'escape') navigate('/escape-room');
+                        else if (stamp.missionId === 'phone') navigate('/phone-simulator');
+                        else if (stamp.missionId === 'deepfake') navigate('/deepfake-lab');
+                        else if (stamp.missionId === 'threat_radar') navigate('/threat-radar');
+                        else navigate(`/mission/${stamp.missionId}`);
+                      }}
                       className={`
                         border-2 rounded-2xl p-3 flex flex-col items-center justify-between text-center min-h-[140px] relative transition-all group
                         ${isStamped 

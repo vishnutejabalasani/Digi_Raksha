@@ -8,7 +8,10 @@ import {
   User,
   Award,
   ShieldCheck,
-  Smartphone
+  Smartphone,
+  CreditCard,
+  Mic,
+  Radar
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -18,6 +21,9 @@ export const Sidebar: React.FC = () => {
 
   const links = [
     { to: '/dashboard', label: 'Mission Control', icon: Compass },
+    { to: '/id-card', label: 'Cadet ID Card', icon: CreditCard },
+    { to: '/deepfake-lab', label: 'Deepfake Audio Lab', icon: Mic },
+    { to: '/threat-radar', label: 'Threat Radar SOC', icon: Radar },
     { to: '/city-map', label: 'Cyber City Map', icon: Map },
     { to: '/escape-room', label: 'Escape Room', icon: Flame },
     { to: '/phone-simulator', label: 'Phone Sandbox', icon: Smartphone },

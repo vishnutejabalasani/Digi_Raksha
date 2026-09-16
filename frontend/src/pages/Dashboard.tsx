@@ -14,7 +14,10 @@ import {
   Shield, 
   Sparkles,
   Smartphone,
-  Flame
+  Flame,
+  CreditCard,
+  Mic,
+  Radar
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -236,6 +239,25 @@ export const Dashboard: React.FC = () => {
           <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-xl font-medium leading-relaxed">
             Your missions are online. Protect your virtual citizen profile, identify phishing traps, and secure the simulation systems to claim your cyber credentials.
           </p>
+
+          <div className="flex flex-wrap gap-2.5 mt-4">
+            <button
+              onClick={() => navigate('/id-card')}
+              type="button"
+              className="flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white rounded-xl text-xs font-black uppercase tracking-wider shadow-md cursor-pointer transition-all"
+            >
+              <CreditCard className="w-4 h-4" />
+              <span>Holographic Agent ID</span>
+            </button>
+            <button
+              onClick={() => navigate('/threat-radar')}
+              type="button"
+              className="flex items-center gap-2 px-3.5 py-2 bg-slate-800/90 hover:bg-slate-700/90 border border-cyan-500/40 text-cyan-300 rounded-xl text-xs font-black uppercase tracking-wider shadow-md cursor-pointer transition-all"
+            >
+              <Radar className="w-4 h-4" />
+              <span>Threat Radar SOC</span>
+            </button>
+          </div>
         </div>
 
         {/* Circular Progress Indicator */}
@@ -351,6 +373,68 @@ export const Dashboard: React.FC = () => {
               <span className="text-amber-400 font-black">+300 XP · +150 Coins</span>
               <span className="text-white font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                 Enter Escape Room →
+              </span>
+            </div>
+          </div>
+
+          {/* AI Voice Clone Forensics Lab Card */}
+          <div 
+            onClick={() => navigate('/deepfake-lab')}
+            className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-emerald-500/30 rounded-3xl p-6 text-white cursor-pointer hover:scale-102 transition-all shadow-lg flex flex-col justify-between gap-5 relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-3 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-2xl">
+                  <Mic className="w-6 h-6" />
+                </span>
+                <span className="text-[9px] bg-emerald-500 text-slate-950 font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  AI AUDIO LAB
+                </span>
+              </div>
+              <h4 className="text-lg font-black text-white group-hover:text-emerald-300 transition-colors uppercase tracking-tight">
+                Deepfake Audio Forensics
+              </h4>
+              <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">
+                Dual-band spectrogram audio analysis. Detect 3.2kHz vocoder harmonic spikes, bust fake Digital Arrest police scams, and earn the Deepfake Analyst badge!
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-slate-800 pt-3 text-[11px] font-mono">
+              <span className="text-emerald-400 font-black">+200 XP · +50 Coins</span>
+              <span className="text-white font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Open Audio Lab →
+              </span>
+            </div>
+          </div>
+
+          {/* National Threat Radar SOC Card */}
+          <div 
+            onClick={() => navigate('/threat-radar')}
+            className="bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 border-2 border-cyan-500/30 rounded-3xl p-6 text-white cursor-pointer hover:scale-102 transition-all shadow-lg flex flex-col justify-between gap-5 relative overflow-hidden group"
+          >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <span className="p-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-2xl">
+                  <Radar className="w-6 h-6" />
+                </span>
+                <span className="text-[9px] bg-cyan-400 text-slate-950 font-black px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  WAR ROOM
+                </span>
+              </div>
+              <h4 className="text-lg font-black text-white group-hover:text-cyan-300 transition-colors uppercase tracking-tight">
+                National Threat Radar SOC
+              </h4>
+              <p className="text-xs text-slate-300 mt-2 leading-relaxed font-medium">
+                Live military radar sweep tracking incursion telemetry across Indian school networks. Deploy DNS sinkholes and coordinate national cybersecurity defense!
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between border-t border-slate-800 pt-3 text-[11px] font-mono">
+              <span className="text-cyan-400 font-black">+200 XP · +50 Coins</span>
+              <span className="text-white font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Enter War Room →
               </span>
             </div>
           </div>
